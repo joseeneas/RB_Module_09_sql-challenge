@@ -8,4 +8,3 @@ This repository contains:
   3. Input Data for the tables
   4. Results for each question in the challenge
   5. Script that creates all the answers for the challenge
-  6. 
