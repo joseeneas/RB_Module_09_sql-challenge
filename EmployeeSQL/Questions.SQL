@@ -1,110 +1,191 @@
--- 1. List the employee number, 
---             last name, 
---             first name, 
---             sex, 
---         and salary 
---     of each employee.
-
-select e.emp_no, 
-       s.emp_no, 
-	   e.last_name, 
-	   e.first_name, 
-	   e.sex, 
-	   s.salary
-from   employees e, 
-       salaries s
-where  e.emp_no = s.emp_no
-order by e.emp_no;
-
--- 2. List the first name, last name, and hire date for the employees who were hired in 1986.
-
-select e.first_name, 
-       e.last_name, 
-	   e.hire_date 
-from employees e
-where date_PART('YEAR', hire_date) = 1986;
-
--- 3. List the manager of each department along with their 
---      department number, 
---      department name, 
---      employee number, 
---      last name, 
---      and first name.
-
-select m.dept_no, 
-       d.dept_name, 
-	   m.emp_no,
-	   e.last_name,
-	   e.first_name
-from   dept_manager as m, 
-       department as d,
-	   employees e
-where  m.dept_no = d.dept_no and
-       m.emp_no = e.emp_no;
-
--- 4. List the department number for each employee 
--- along with that employee’s employee number, last name, first name, and department name.
-
-select m.dept_no, 
-       d.dept_name, 
-	   m.emp_no,
-	   e.last_name,
-	   e.first_name
-from   dept_emp as m, 
-       department as d,
-	   employees e
-where  m.dept_no = d.dept_no and
-       m.emp_no = e.emp_no;
-	   
--- 5. List first name,
---         last name, 
---	   and sex of each employee 
---     whose first name is Hercules and 
---     whose last name begins with the letter B.
-
-select e.first_name, e.last_name, e.sex from employees e
-where  e.first_name = 'Hercules'
-and    e.last_name like 'B%';
-
--- 6. List each employee in the Sales department, 
---    including their employee number, 
---    last name, 
---and first name.
-
-select m.dept_no, 
-       d.dept_name, 
-	   m.emp_no,
-	   e.last_name,
-	   e.first_name
-from   dept_emp as m, 
-       department as d,
-	   employees e
-where  m.dept_no = d.dept_no and
-       m.emp_no = e.emp_no and
-	   d.dept_name = 'Sales';
-	   
--- 7. List each employee 
---    in the Sales and Development departments, 
---    including their employee number, last name, first name, and department name.
-
-select m.dept_no, 
-       d.dept_name, 
-	   m.emp_no,
-	   e.last_name,
-	   e.first_name
-from   dept_emp as m, 
-       department as d,
-	   employees e
-where  m.dept_no = d.dept_no and
-       m.emp_no = e.emp_no and
-	   ( d.dept_name = 'Sales' or
-		 d.dept_name = 'Development');
-
--- 8.  List the frequency counts, 
---               in descending order, 
---				of all the employee last names (that is, how many employees share each last name).
-
-select   last_name, count(last_name) 
-from     employees
-group by last_name 
-order by count(last_name) desc;
+-- ********************************************************************
+-- 1. LIST THE EMPLOYEE NUMBER,
+--             LAST NAME,
+--             FIRST NAME,
+--             SEX,
+--         AND SALARY
+--     OF EACH EMPLOYEE.
+--
+-- SINTAX OPTION 1
+--
+SELECT E.EMP_NO,
+	S.EMP_NO,
+	E.LAST_NAME,
+	E.FIRST_NAME,
+	E.SEX,
+	S.SALARY
+FROM EMPLOYEES E,
+	SALARIES S
+WHERE E.EMP_NO = S.EMP_NO
+ORDER BY E.EMP_NO;
+--
+-- SINTAX OPTION 2
+--
+SELECT E.EMP_NO,
+	S.EMP_NO,
+	E.LAST_NAME,
+	E.FIRST_NAME,
+	E.SEX,
+	S.SALARY
+FROM EMPLOYEES E
+INNER JOIN SALARIES S ON E.EMP_NO = S.EMP_NO
+ORDER BY E.EMP_NO;
+-- ********************************************************************
+-- 2. LIST THE FIRST NAME,
+--             LAST NAME,
+--         AND HIRE DATE FOR THE EMPLOYEES WHO WERE HIRED IN 1986.
+--
+-- SINTAX OPTION 1
+--
+SELECT E.FIRST_NAME,
+	E.LAST_NAME,
+	E.HIRE_DATE
+FROM EMPLOYEES E
+WHERE DATE_PART('YEAR',	HIRE_DATE) = 1986;
+-- ********************************************************************
+-- 3. LIST THE MANAGER OF EACH DEPARTMENT ALONG WITH THEIR
+--      DEPARTMENT NUMBER,
+--      DEPARTMENT NAME,
+--      EMPLOYEE NUMBER,
+--      LAST NAME,
+--      AND FIRST NAME.
+--
+-- SINTAX OPTION 1
+--
+SELECT M.DEPT_NO,
+	D.DEPT_NAME,
+	M.EMP_NO,
+	E.LAST_NAME,
+	E.FIRST_NAME
+FROM DEPT_MANAGER M,
+	DEPARTMENT D,
+	EMPLOYEES E
+WHERE M.DEPT_NO = D.DEPT_NO
+	AND M.EMP_NO = E.EMP_NO;
+--
+-- SINTAX OPTION 2
+--
+SELECT M.DEPT_NO,
+	D.DEPT_NAME,
+	M.EMP_NO,
+	E.LAST_NAME,
+	E.FIRST_NAME
+FROM DEPT_MANAGER M
+INNER JOIN DEPARTMENT D ON M.DEPT_NO = D.DEPT_NO
+INNER JOIN EMPLOYEES E ON M.EMP_NO = E.EMP_NO;
+-- ********************************************************************
+-- 4. LIST THE DEPARTMENT NUMBER FOR EACH EMPLOYEE
+-- ALONG WITH THAT EMPLOYEE’S EMPLOYEE NUMBER, LAST NAME, FIRST NAME, AND DEPARTMENT NAME.
+--
+-- SINTAX OPTION 1
+--
+SELECT M.DEPT_NO,
+	D.DEPT_NAME,
+	M.EMP_NO,
+	E.LAST_NAME,
+	E.FIRST_NAME
+FROM DEPT_EMP M,
+	DEPARTMENT D,
+	EMPLOYEES E
+WHERE M.DEPT_NO = D.DEPT_NO
+	AND M.EMP_NO = E.EMP_NO;
+--
+-- SINTAX OPTION 2
+--
+SELECT M.DEPT_NO,
+	D.DEPT_NAME,
+	M.EMP_NO,
+	E.LAST_NAME,
+	E.FIRST_NAME
+FROM DEPT_EMP M
+INNER JOIN DEPARTMENT D ON M.DEPT_NO = D.DEPT_NO
+INNER JOIN EMPLOYEES E ON M.EMP_NO = E.EMP_NO;
+-- ********************************************************************
+-- 5. LIST FIRST NAME,
+--         LAST NAME,
+--	   AND SEX OF EACH EMPLOYEE
+--     WHOSE FIRST NAME IS HERCULES AND
+--     WHOSE LAST NAME BEGINS WITH THE LETTER B.
+--
+-- SINTAX OPTION 1
+--
+SELECT E.FIRST_NAME,
+	E.LAST_NAME,
+	E.SEX
+FROM EMPLOYEES E
+WHERE E.FIRST_NAME = 'HERCULES'
+	AND E.LAST_NAME LIKE 'B%';
+-- ********************************************************************
+-- 6. LIST EACH EMPLOYEE IN THE SALES DEPARTMENT,
+--    INCLUDING THEIR EMPLOYEE NUMBER,
+--    LAST NAME,
+--AND FIRST NAME.
+--
+-- SINTAX OPTION 1
+--
+SELECT M.DEPT_NO,
+	D.DEPT_NAME,
+	M.EMP_NO,
+	E.LAST_NAME,
+	E.FIRST_NAME
+FROM DEPT_EMP M,
+	DEPARTMENT D,
+	EMPLOYEES E
+WHERE M.DEPT_NO = D.DEPT_NO
+	AND M.EMP_NO = E.EMP_NO
+	AND D.DEPT_NAME = 'SALES';
+--
+-- SINTAX OPTION 2
+--
+SELECT M.DEPT_NO,
+	D.DEPT_NAME,
+	M.EMP_NO,
+	E.LAST_NAME,
+	E.FIRST_NAME
+FROM DEPT_EMP M
+INNER JOIN DEPARTMENT D ON M.DEPT_NO = D.DEPT_NO
+INNER JOIN EMPLOYEES E ON M.EMP_NO = E.EMP_NO
+WHERE D.DEPT_NAME = 'SALES';
+-- ********************************************************************
+-- 7. LIST EACH EMPLOYEE
+--    IN THE SALES AND DEVELOPMENT DEPARTMENTS,
+--    INCLUDING THEIR EMPLOYEE NUMBER, LAST NAME, FIRST NAME, AND DEPARTMENT NAME.
+--
+-- SINTAX OPTION 1
+--
+SELECT M.DEPT_NO,
+	D.DEPT_NAME,
+	M.EMP_NO,
+	E.LAST_NAME,
+	E.FIRST_NAME
+FROM DEPT_EMP AS M,
+	DEPARTMENT AS D,
+	EMPLOYEES E
+WHERE M.DEPT_NO = D.DEPT_NO
+	AND M.EMP_NO = E.EMP_NO
+	AND (D.DEPT_NAME = 'SALES'
+						OR D.DEPT_NAME = 'DEVELOPMENT');
+--
+-- SINTAX OPTION 2
+--
+SELECT M.DEPT_NO,
+	D.DEPT_NAME,
+	M.EMP_NO,
+	E.LAST_NAME,
+	E.FIRST_NAME
+FROM DEPT_EMP M
+INNER JOIN DEPARTMENT D ON M.DEPT_NO = D.DEPT_NO
+INNER JOIN EMPLOYEES E ON M.EMP_NO = E.EMP_NO
+WHERE (D.DEPT_NAME = 'SALES' OR D.DEPT_NAME = 'DEVELOPMENT');
+-- ********************************************************************
+-- 8.  LIST THE FREQUENCY COUNTS,
+--               IN DESCENDING ORDER,
+--				OF ALL THE EMPLOYEE LAST NAMES (THAT IS, HOW MANY EMPLOYEES SHARE EACH LAST NAME).
+--
+-- SINTAX OPTION 1
+--
+SELECT LAST_NAME,
+	COUNT(LAST_NAME)
+FROM EMPLOYEES
+GROUP BY LAST_NAME
+ORDER BY COUNT(LAST_NAME) DESC;
